@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#101827">
+  <meta name="description" content="Advanced scientific calculator with trigonometry, logarithms, memory, and calculation history.">
+  <title>Nova — Advanced Scientific Calculator</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <main class="app">
+    <header class="topbar">
+      <a class="brand" href="./"><span class="brand-icon">N</span><span>NOVA<small>SCIENTIFIC CALCULATOR</small></span></a>
+      <div class="top-actions">
+        <span class="status"><i></i> READY</span>
+        <button class="icon-btn" id="themeToggle" type="button" aria-label="Toggle theme" title="Toggle theme">◐</button>
+      </div>
+    </header>
+
+    <div class="workspace">
+      <section class="calculator panel" aria-label="Scientific calculator">
+        <div class="calc-toolbar">
+          <div class="mode-switch" role="group" aria-label="Angle mode">
+            <button type="button" class="mode active" data-mode="DEG" aria-pressed="true">DEG</button>
+            <button type="button" class="mode" data-mode="RAD" aria-pressed="false">RAD</button>
+          </div>
+          <div class="toolbar-right">
+            <span class="memory-indicator" id="memoryIndicator">MEM —</span>
+            <button type="button" class="text-btn" id="clearHistory">CLEAR</button>
+          </div>
+        </div>
+
+        <div class="display">
+          <div class="expression" id="expression" aria-label="Expression" aria-live="polite">0</div>
+          <div class="result-row"><span class="result-label">RESULT</span><output id="result" aria-live="polite">0</output></div>
+          <div class="display-message" id="message" aria-live="polite">Enter an expression</div>
+        </div>
+
+        <div class="keypad">
+          <button class="key utility" data-action="memory-clear">MC</button>
+          <button class="key utility" data-action="memory-recall">MR</button>
+          <button class="key utility" data-action="memory-add">M+</button>
+          <button class="key utility" data-action="memory-subtract">M−</button>
+          <button class="key danger" data-action="clear">AC</button>
+
+          <button class="key function" data-insert="sin(">sin</button>
+          <button class="key function" data-insert="cos(">cos</button>
+          <button class="key function" data-insert="tan(">tan</button>
+          <button class="key function" data-insert="asin(">sin⁻¹</button>
+          <button class="key function" data-insert="acos(">cos⁻¹</button>
+
+          <button class="key function" data-insert="sinh(">sinh</button>
+          <button class="key function" data-insert="cosh(">cosh</button>
+          <button class="key function" data-insert="tanh(">tanh</button>
+          <button class="key function" data-insert="sqrt(">√</button>
+          <button class="key function" data-insert="cbrt(">∛</button>
+
+          <button class="key function" data-insert="log(">log</button>
+          <button class="key function" data-insert="ln(">ln</button>
+          <button class="key function" data-insert="log2(">log₂</button>
+          <button class="key function" data-insert="abs(">abs</button>
+          <button class="key function" data-insert="!(">n!</button>
+
+          <button class="key function" data-insert="π">π</button>
+          <button class="key function" data-insert="e">e</button>
+          <button class="key function" data-insert="^2">x²</button>
+          <button class="key function" data-insert="^">xʸ</button>
+          <button class="key function" data-insert="^(-1)">1/x</button>
+
+          <button class="key utility" data-insert="(">(</button>
+          <button class="key utility" data-insert=")">)</button>
+          <button class="key utility" data-insert="%">mod</button>
+          <button class="key utility" data-action="backspace">⌫</button>
+          <button class="key utility" data-insert="Ans">Ans</button>
+
+          <button class="key number" data-insert="7">7</button>
+          <button class="key number" data-insert="8">8</button>
+          <button class="key number" data-insert="9">9</button>
+          <button class="key operator" data-insert="÷">÷</button>
+          <button class="key operator" data-insert="×">×</button>
+
+          <button class="key number" data-insert="4">4</button>
+          <button class="key number" data-insert="5">5</button>
+          <button class="key number" data-insert="6">6</button>
+          <button class="key operator" data-insert="−">−</button>
+          <button class="key operator" data-insert="+">+</button>
+
+          <button class="key number" data-insert="1">1</button>
+          <button class="key number" data-insert="2">2</button>
+          <button class="key number" data-insert="3">3</button>
+          <button class="key number" data-insert="0">0</button>
+          <button class="key number" data-insert=".">.</button>
+
+          <button class="key utility" data-insert="exp(">exp</button>
+          <button class="key utility" data-insert="π×2">2π</button>
+          <button class="key utility" data-insert="−">±</button>
+          <button class="key equals" data-action="calculate">=</button>
+        </div>
+        <p class="keyboard-hint">KEYBOARD: ENTER TO CALCULATE <span>·</span> ESC TO CLEAR <span>·</span> BACKSPACE TO EDIT</p>
+      </section>
+
+      <aside class="side-column">
+        <section class="panel history-panel">
+          <div class="panel-heading"><div><span class="eyebrow">YOUR WORKSPACE</span><h2>History</h2></div><span class="count" id="historyCount">00</span></div>
+          <div class="history-list" id="historyList"><div class="history-empty">Your calculations will appear here.</div></div>
+        </section>
+        <section class="panel info-panel">
+          <span class="eyebrow">QUICK REFERENCE</span>
+          <h2>Built for<br><em>precision.</em></h2>
+          <div class="reference-row"><span>Angle mode</span><b id="angleLabel">Degrees</b></div>
+          <div class="reference-row"><span>Last answer</span><b id="answerLabel">0</b></div>
+          <div class="reference-row"><span>Memory</span><b id="memoryLabel">Empty</b></div>
+          <p>Use parentheses to control the order of operations. Trigonometric functions follow the selected angle mode.</p>
+        </section>
+      </aside>
+    </div>
+    <footer><span>NOVA SCIENTIFIC ENGINE <b>●</b> CLIENT-SIDE</span><span>DESIGNED FOR EVERY EQUATION.</span></footer>
+  </main>
+  <script src="js/calculator.js"></script>
+</body>
+</html>
